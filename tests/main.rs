@@ -27,16 +27,12 @@ async fn main() -> Result<()> {
             test.run(ctx.clone()), //TODO: using &ctx here results in https://github.com/rust-lang/rust/issues/64650
         )
         .catch_unwind()
-        .await;
+        .await.unwrap();
 
-        println!(
-            "test {} {}",
-            i,
-            match res {
-                Ok(_) => "passed.",
-                _ => "failed!",
-            }
-        );
+        match res {
+            Ok(_) => println!("test {} passed.", i+1),
+            Err(e) => println!("test {} failed! Error: {:?}", i+1, e)
+        }
     }
 
     Ok(())
