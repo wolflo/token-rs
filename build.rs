@@ -2,7 +2,6 @@ use std::{env, fs, path::Path};
 
 use ethers::utils::Solc;
 
-
 // Compile contracts/** and write the bytecode and abi of each contract to build/
 fn main() {
     // Tell Cargo to rerun build script anytime contracts/** is updated
@@ -17,7 +16,9 @@ fn main() {
     }
 
     // compile contracts
-    let solc_output = Solc::new("./contracts/**/*.sol").build_raw().expect("Compilation error.");
+    let solc_output = Solc::new("./contracts/**/*.sol")
+        .build_raw()
+        .expect("Compilation error.");
 
     // write bytecode and abi's
     for (name, output) in solc_output {
@@ -31,5 +32,8 @@ fn main() {
     }
 
     // Pass out_dir to env as SOLC_BUILD_DIR
-    println!("cargo:rustc-env=SOLC_BUILD_DIR={}", out_dir.into_os_string().into_string().unwrap());
+    println!(
+        "cargo:rustc-env=SOLC_BUILD_DIR={}",
+        out_dir.into_os_string().into_string().unwrap()
+    );
 }
