@@ -4,12 +4,12 @@ use futures::FutureExt;
 
 use ethers::utils::{launch_ganache, Ganache, GanacheInstance};
 
-mod tests;
 mod types;
 mod utils;
-use tests::*;
+mod erc20_mintable_pausable;
 use types::*;
 use utils::setup;
+use erc20_mintable_pausable::*;
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -19,6 +19,7 @@ async fn main() -> Result<()> {
     let tests: Vec<Box<dyn Runner>> = vec![
         Box::new(test_name),
         Box::new(test_symbol),
+        Box::new(test_mint),
         Box::new(test_transfer),
     ];
 

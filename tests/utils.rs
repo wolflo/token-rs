@@ -19,13 +19,13 @@ pub async fn setup(node: &GanacheInstance, n_accts: usize) -> Result<Context> {
 
     let client = Arc::new(SignerMiddleware::new(provider, accts[0].clone()));
 
-    let factory = make_factory("ERC20", &client)?;
+    let factory = make_factory("ERC20MinterPauser", &client)?;
     let deployed = factory
         .deploy(("Token".to_string(), "TOK".to_string()))?
         .send()
         .await?;
 
-    let token = ERC20::new(deployed.address(), client);
+    let token = ERC20MinterPauser::new(deployed.address(), client);
 
     Ok(Context { token, accts })
 }

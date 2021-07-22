@@ -7,14 +7,14 @@ use ethers::{
 };
 
 abigen!(
-    ERC20,
-    "./build/ERC20.abi",
+    ERC20MinterPauser,
+    "./build/ERC20MinterPauser.abi",
     event_derives(serde::Deserialize, serde::Serialize)
 );
 
 #[derive(Debug, Clone)]
 pub struct Context {
-    pub token: ERC20<SignerMiddleware<Provider<Http>, Wallet<SigningKey>>>,
+    pub token: ERC20MinterPauser<SignerMiddleware<Provider<Http>, Wallet<SigningKey>>>,
     pub accts: Vec<LocalWallet>,
 }
 
