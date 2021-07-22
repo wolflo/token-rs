@@ -3,6 +3,13 @@ The contracts are just various tokens from [OpenZeppelin](https://github.com/Ope
 
 # Usage
 
+You can compile the contracts with:
+```
+cargo build
+```
+This will use your local `solc` install.
+
+Compile contracts and run the tests:
 ```
 cargo test -- --nocapture
 ```

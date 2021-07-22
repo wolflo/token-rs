@@ -4,9 +4,6 @@ use ethers::utils::Solc;
 
 // Compile contracts/** and write the bytecode and abi of each contract to build/
 fn main() {
-    // Tell Cargo to rerun build script anytime contracts/** is updated
-    println!("cargo:rerun-if-changed=contracts/");
-
     // Can't write to OUT_DIR, because can't pass OUT_DIR to ethers' abigen.
     // Temorarily do bad build script things so we can hardcode path for abigen.
     let out_dir_base = env::current_dir().unwrap();
@@ -36,4 +33,7 @@ fn main() {
         "cargo:rustc-env=SOLC_BUILD_DIR={}",
         out_dir.into_os_string().into_string().unwrap()
     );
+
+    // Tell Cargo to rerun build script anytime contracts/** is updated
+    println!("cargo:rerun-if-changed=contracts/");
 }
