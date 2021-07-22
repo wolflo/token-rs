@@ -5,7 +5,7 @@ use ethers::prelude::*;
 
 const BUILD_DIR: &'static str = env!("SOLC_BUILD_DIR");
 
-pub fn get_factory<M: Middleware>(name: &str, client: &Arc<M>) -> Result<ContractFactory<M>> {
+pub fn make_factory<M: Middleware>(name: &str, client: &Arc<M>) -> Result<ContractFactory<M>> {
     let name = String::from(name);
     let build_dir = Path::new(BUILD_DIR);
 

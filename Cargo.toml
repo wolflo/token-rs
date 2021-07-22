@@ -1,9 +1,23 @@
 [package]
-name = "contracts"
+name = "token-rs"
 version = "0.1.0"
 edition = "2018"
+autotests = false
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]]
+name = "tests"
+path = "tests/main.rs"
+
+[[test]]
+name = "contracts"
+path = "tests/main.rs"
+harness = false
+
+[profile.dev]
+panic = "unwind"
+
+[profile.release]
+panic = "unwind"
 
 [dependencies]
 ethers = { git = "https://github.com/gakonst/ethers-rs" }
@@ -12,6 +26,7 @@ serde_json = "1.0.64"
 tokio = { version = "1.5", features = ["macros", "rt-multi-thread"] }
 anyhow = "1.0.39"
 hex = { version = "0.4.3", default-features = false, features = ["std"] }
+futures = "0.3.15"
 
 [build-dependencies]
 ethers = { git = "https://github.com/gakonst/ethers-rs" }
