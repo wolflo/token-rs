@@ -11,7 +11,7 @@ use crate::types::*;
 const BUILD_DIR: &'static str = env!("SOLC_BUILD_DIR");
 
 pub async fn setup(node: &GanacheInstance, n_accts: usize) -> Result<Context> {
-    let provider = Provider::<Http>::try_from(node.endpoint())?;
+    let provider = Provider::<Http>::try_from(node.endpoint())?.interval(Duration::from_millis(1));
     let accts: Vec<LocalWallet> = node.keys()[..n_accts]
         .iter()
         .map(|x| x.clone().into())

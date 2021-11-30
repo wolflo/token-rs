@@ -19,7 +19,7 @@ pub async fn test_mint(ctx: Context) -> Result<()> {
     let user = ctx.accts[1].address();
     let amt = U256::from(200);
 
-    ctx.token.mint(user, amt).send().await?.await?.unwrap();
+    ctx.token.mint(user, amt).send().await?;
 
     let bal = ctx.token.balance_of(user).call().await?;
     assert_eq!(bal, amt);
@@ -33,10 +33,10 @@ pub async fn test_transfer(ctx: Context) -> Result<()> {
     let mint_amt = parse_ether(U256::from(100))?;
     let send_amt = parse_ether(U256::from(50))?;
 
-    ctx.token.mint(src, mint_amt).send().await?.await?;
+    ctx.token.mint(src, mint_amt).send().await?;
 
     //TODO: this is still coming from the connected client account
-    ctx.token.transfer(dst, send_amt).from(src).send().await?.await?;
+    // ctx.token.transfer(dst, send_amt).from(src).send().await?;
 
     let bal_src = ctx.token.balance_of(src).call().await?;
     let bal_dst = ctx.token.balance_of(dst).call().await?;
