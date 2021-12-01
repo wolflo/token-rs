@@ -2,7 +2,8 @@ use anyhow::Result;
 
 // use crate::types::*;
 use crate::*;
-use ethers::{prelude::*, utils::parse_ether};
+// use ethers::{prelude::*, core::types::U256, utils::parse_ether};
+use ethers::{core::types::U256, utils::parse_ether};
 
 pub async fn test_name(ctx: Context) -> Result<()> {
     println!("Testing name.");
@@ -20,7 +21,7 @@ pub async fn test_symbol(ctx: Context) -> Result<()> {
 
 pub async fn test_mint(ctx: Context) -> Result<()> {
     println!("Testing mint.");
-    let user = ctx.accts[1].address();
+    let user = ctx.accts[0].address();
     let amt = U256::from(200);
 
     ctx.token.mint(user, amt).send().await?;
@@ -35,8 +36,8 @@ pub async fn test_transfer(ctx: Context) -> Result<()> {
 
     let src = ctx.accts[1].address();
     let dst = ctx.accts[2].address();
-    let mint_amt = parse_ether(U256::from(100))?;
-    let send_amt = parse_ether(U256::from(50))?;
+    let mint_amt = parse_ether(100usize).unwrap();
+    let send_amt = parse_ether(50usize).unwrap();
 
     ctx.token.mint(src, mint_amt).send().await?;
     ctx.token.transfer(dst, send_amt).from(src).send().await?;

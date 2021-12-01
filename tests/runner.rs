@@ -22,8 +22,9 @@ where
 
 use ethers::{
     prelude::*,
-    utils::{GanacheInstance, Ganache, launch_ganache},
+    utils::{GanacheInstance, Ganache},
     core::k256::ecdsa::SigningKey,
+    signers::Signer,
 };
 use std::{fs, sync::Arc, path::Path, convert::TryFrom, time::Duration};
 mod erc20_mintable_pausable;
@@ -33,10 +34,10 @@ abigen!(
     "./build/ERC20MinterPauser.abi",
     event_derives(serde::Deserialize, serde::Serialize)
 );
-type Signer = SignerMiddleware<Provider<Http>,Wallet<SigningKey>>;
+type MSigner = SignerMiddleware<Provider<Http>,Wallet<SigningKey>>;
 #[derive(Debug, Clone)]
 pub struct Context {
-    pub token: ERC20MinterPauser<Signer>,
+    pub token: ERC20MinterPauser<MSigner>,
     pub accts: Vec<LocalWallet>,
 }
 const BUILD_DIR: &'static str = env!("SOLC_BUILD_DIR");
@@ -84,7 +85,7 @@ inventory::submit!(&test_transfer as Action<Context>);
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let node: &GanacheInstance = &launch_ganache(Ganache::new()).await;
+    let node: GanacheInstance = Ganache::new().spawn();
     let ctx = setup(&node, 3).await?;
     for act in inventory::iter::<Action<Context>> {
         act.apply(ctx.clone()).await?;
