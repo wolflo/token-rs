@@ -1,11 +1,7 @@
 use anyhow::Result;
-use std::{fs, sync::Arc, path::Path, convert::TryFrom, time::Duration};
+use std::{convert::TryFrom, fs, path::Path, sync::Arc, time::Duration};
 
-use ethers::{
-    prelude::*,
-    prelude::dev_rpc::DevRpcMiddleware,
-    utils::GanacheInstance,
-};
+use ethers::{prelude::*, utils::GanacheInstance};
 
 use crate::types::*;
 
@@ -16,14 +12,21 @@ pub async fn setup(node: &GanacheInstance, n_accts: usize) -> Result<Ctx> {
         .iter()
         .map(|x| x.clone().into())
         .collect();
-    let client = Arc::new(DevRpcMiddleware::new(SignerMiddleware::new(provider, accts[0].clone())));
+    let client = Arc::new(DevRpcMiddleware::new(SignerMiddleware::new(
+        provider,
+        accts[0].clone(),
+    )));
     let factory = make_factory("ERC20MinterPauser", &client)?;
     let deployed = factory
         .deploy(("Token".to_string(), "TOK".to_string()))?
         .send()
         .await?;
     let token = ERC20MinterPauser::new(deployed.address(), client.clone());
-    Ok(Ctx { client, accts, token })
+    Ok(Ctx {
+        client,
+        accts,
+        token,
+    })
 }
 pub fn make_factory<M: Middleware>(name: &str, client: &Arc<M>) -> Result<ContractFactory<M>> {
     let name = String::from(name);

@@ -1,14 +1,14 @@
 use anyhow::Result;
 use ethers::{
-    utils::{GanacheInstance, Ganache},
     signers::Signer,
+    utils::{Ganache, GanacheInstance},
 };
 
+mod tests;
 mod types;
 mod utils;
-mod tests;
+use types::{Action, Ctx};
 use utils::setup;
-use types::{Ctx, Action};
 
 // Collect test functions, registered in tests.rs
 inventory::collect!(Action<Ctx>);

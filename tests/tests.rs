@@ -1,5 +1,5 @@
-use anyhow::Result;
 use crate::*;
+use anyhow::Result;
 use ethers::{core::types::U256, utils::parse_ether};
 
 // Must register all test functions

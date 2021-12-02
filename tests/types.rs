@@ -3,10 +3,7 @@ use async_trait::async_trait;
 use futures::future::Future;
 use std::sync::Arc;
 
-use ethers::{
-    prelude::*,
-    core::k256::ecdsa::SigningKey,
-};
+use ethers::{core::k256::ecdsa::SigningKey, prelude::*};
 
 abigen!(
     ERC20MinterPauser,
@@ -14,7 +11,7 @@ abigen!(
     event_derives(serde::Deserialize, serde::Serialize)
 );
 
-pub type Client = dev_rpc::DevRpcMiddleware<SignerMiddleware<Provider<Http>,Wallet<SigningKey>>>;
+pub type Client = DevRpcMiddleware<SignerMiddleware<Provider<Http>, Wallet<SigningKey>>>;
 
 #[derive(Debug, Clone)]
 pub struct Ctx {
@@ -37,7 +34,7 @@ impl<F, X, Y, Fut> AsyncAct<X, Y> for F
 where
     F: Fn(X) -> Fut + Sync,
     X: 'static + Send,
-    Fut: Future<Output = Y> + Send
+    Fut: Future<Output = Y> + Send,
 {
     async fn apply(&self, x: X) -> Y {
         self(x).await

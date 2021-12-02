@@ -4,10 +4,6 @@ version = "0.1.0"
 edition = "2018"
 autotests = false
 
-[[bin]]
-name = "tests"
-path = "tests/main.rs"
-
 [[test]]
 name = "contracts"
 path = "tests/runner.rs"
